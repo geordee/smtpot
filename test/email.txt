@@ -1,0 +1,10 @@
+From: John Doe <john@example.com>
+To: Jane Doe <jane@example.com>
+Subject: Hello
+Date: Sun, 2 Feb 2020 02:02:02
+
+Dear Jane,
+How are you? What a lovely day!
+
+Regards,
+John

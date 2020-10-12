@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smtpot
+  labels:
+    app: smtpot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smtpot
+  template:
+    metadata:
+      labels:
+        app: smtpot
+    spec:
+      containers:
+      - name: smtpot
+        image: geordee/smtpot:latest
+        volumeMounts:
+        - mountPath: /var/mail
+          name: smtpot-var-mail
+      volumes:
+      - name: smtpot-var-mail
+        persistentVolumeClaim:
+          claimName: smtpot-claim
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: smtpot
+  name: smtpot-claim
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1G
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: smtpot
+spec:
+  selector:
+    app: smtpot
+  ports:
+  - protocol: TCP
+    port: 5225
+    targetPort: 5225
